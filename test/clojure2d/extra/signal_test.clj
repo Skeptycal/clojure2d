@@ -1,5 +1,6 @@
 (ns clojure2d.extra.signal-test
   (:require [clojure.test :refer :all])
+  (:require [clojure.inspector])
   (:import [clojure2d.java.signal Converter]))
 
 (def input (int-array (range 0 256)))
