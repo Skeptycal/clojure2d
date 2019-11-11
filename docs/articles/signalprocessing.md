@@ -10,17 +10,17 @@ Here is step by step reconstruction of my approach. I've started with native Clo
 
 Let's start with filters. I introduce two of them: simple low pass and high pass filters. Each filter should have:
 
-* Constructor accepting filter configuration (here: sample rate, cutoff)
-* Filter itself which:
+- Constructor accepting filter configuration (here: sample rate, cutoff)
+- Filter itself which:
   - accepts: sample and current state
   - returns: filtered sample and new state
-* Initial state creator. This is done by calling filter function without parameters.
+- Initial state creator. This is done by calling filter function without parameters.
 
 Let's do this.
 
 First lowpass filter.
 
-``` eval-clojure
+```eval-clojure
 (defn calc-filter-alpha
   "Calculate alpha for low/high pass filters."
   [rate cutoff]
@@ -47,8 +47,7 @@ First lowpass filter.
 
 And highpass filter (in terms of lowpass filter)
 
-
-``` eval-clojure
+```eval-clojure
 (defn make-highpass-filter
   "Create highpass filter"
   [conf]
@@ -67,11 +66,11 @@ And highpass filter (in terms of lowpass filter)
 
 ## Processor
 
-And now time for our signal processor. We need a possibility to apply as many filters as we want for one sample, keep the state somewhere and process whole the collection. 
+And now time for our signal processor. We need a possibility to apply as many filters as we want for one sample, keep the state somewhere and process whole the collection.
 
 To make composition of filters I decided to keep them together with current state in a vector as a pair `[filter state]`. Now let's build function which processes given sample through all filters. Function accepts sample and state, returns resulting sample and new state of all filters.
 
-``` eval-clojure
+```eval-clojure
 (defn make-filters-state
   "Maps filters to filter-state pairs"
   [fs]
@@ -117,7 +116,7 @@ State of the filters is passed between calls.
 
 Too see that filters work let's apply lowpass filter for high frequency signal.
 
-``` eval-clojure
+```eval-clojure
 (process-signal
  [-1.0 0.0 1.0 0.0]
  [lowpass-filter lowpass-filter lowpass-filter])
@@ -126,7 +125,7 @@ Too see that filters work let's apply lowpass filter for high frequency signal.
 
 Signal is almost filtered out). Now check highpass filter on the same signal.
 
-``` eval-clojure
+```eval-clojure
 (process-signal
  [-1.0 0.0 1.0 0.0]
  [highpass-filter highpass-filter highpass-filter])
