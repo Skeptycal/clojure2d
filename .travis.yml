@@ -13,22 +13,22 @@ jdk:
 matrix:
   include:
     - jdk: openjdk8
-      before_script: &xvfb
-        - "export DISPLAY=:90.0"
-        - "sh -e /etc/init.d/xvfb start"
-        - sleep 3 # give xvfb some time to start
+    # before_script: &xvfb
+    # - "export DISPLAY=:90.0"
+    # - "sh -e /etc/init.d/xvfb start"
+    # - sleep 3 # give xvfb some time to start
     - jdk: oraclejdk8
-      before_script: *xvfb
+      # before_script: *xvfb
     - jdk: oraclejdk9
-      before_script: *xvfb
+      # before_script: *xvfb
     - jdk: openjdk9
-      before_script: *xvfb
+      # before_script: *xvfb
       before_install: &fix_certs
         - rm "${JAVA_HOME}/lib/security/cacerts"
         - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
     - jdk: openjdk10
-      before_script: *xvfb
+      # before_script: *xvfb
       before_install: *fix_certs
     - jdk: openjdk11
-      before_script: *xvfb
+      # before_script: *xvfb
       before_install: *fix_certs
